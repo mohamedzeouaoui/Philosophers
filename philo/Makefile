@@ -1,7 +1,7 @@
 CC = cc
 FLAGS = -Wall -Werror -Wextra
 NAME = philo
-SRC = philo.c parsing.c help_function.c
+SRC = philo.c parsing.c help_function.c initialization.c
 
 OBJ = $(SRC:.c=.o)
 

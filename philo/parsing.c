@@ -31,5 +31,20 @@ void cheack_numbers(int ac, char **av)
         j++;
     }
 }
+// void    cheack_input_error(t_philo *philo)
+// {
+//     char *s;
 
+//     s = "number_of_philosophers shouled be betwin 1 and 200 \n";
+
+//     if(philo->num_of_philos > 200)
+//         print_error(s);
+//     if(philo->time_to_die < 60)
+//         print_error("time_to_die should be larger than 60 ms.\n");
+//     if(philo->time_to_eat < 60)
+//         print_error("time_to_eat should be larger than 60 ms.\n");
+//     if(philo->time_to_sleep < 60)
+//         print_error("time_to_sleep should be larger than 60 ms.\n");
+    
+// }
 

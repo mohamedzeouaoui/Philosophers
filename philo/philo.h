@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <pthread.h>
 
 typedef struct s_philo
@@ -29,8 +30,11 @@ typedef struct s_philo
 
 typedef struct s_program
 {
-    
-
+    int dead_flag;
+    pthread_t   dead_lock;
+    pthread_t   meal_lock;
+    pthread_t   write_lock;
+    t_philo *philos;
 
 }   t_program;
 
@@ -41,6 +45,9 @@ void print_error(char *message_error);
 int	ft_isdigit(int c);
 void cheack_numbers(int ac, char **av);
 int	ft_atoi(char *str);
+void initial_data(int ac, char **av, t_philo *philo, t_program *data);
+void    cheack_input_error(t_philo *philo);
+
 
 
 #endif
