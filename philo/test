@@ -1,0 +1,12 @@
+help_function.c
+help_function.o
+initialization.c
+initialization.o
+Makefile
+parsing.c
+parsing.o
+philo
+philo.c
+philo.h
+philo.o
+test

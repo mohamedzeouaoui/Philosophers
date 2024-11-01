@@ -1,7 +1,7 @@
 CC = cc
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
 NAME = philo
-SRC = philo.c parsing.c help_function.c initialization.c
+SRC = philo.c parsing.c help_function.c initialization.c routine.c
 
 OBJ = $(SRC:.c=.o)
 
