@@ -24,6 +24,7 @@ void thinking(t_philo *philo)
 
 void sleping(t_philo *philo)
 {
+
     printf("%d : sleping\n", philo->id);
     usleep(500);    
 }
@@ -34,8 +35,8 @@ void routine(t_philo *philo)
     {
         usleep(60);
     }
-    int i=0;
-    while (i < 10)
+    // int i=0;
+    while (1)
     {
         
         eating(philo);
@@ -43,7 +44,7 @@ void routine(t_philo *philo)
 
         thinking(philo);
 
-        i++;
+        // i++;
     }
     
 }

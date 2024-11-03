@@ -38,9 +38,15 @@ void    initial_forks(t_data *data)
             data->philo[i].left_fork = data->philo[data->num_philos - 1].right_fork;
         else
             data->philo[i].left_fork = data->philo[i - 1].right_fork;
+        data->philo[i].data_p = data;
+           
         data->philo[i].id = i + 1; 
         i++;
     }
+    pthread_mutex_init(&data->print_lock, NULL);
+	// pthread_mutex_lock(&data->print_lock);
+	// pthread_mutex_unlock(&data->print_lock);
+
 }
 
 void *handel(void *argument)
@@ -64,6 +70,7 @@ void    thread_create(t_data *data)
         pthread_create(&data->philo[i].thread, NULL, handel, &data->philo[i]);
         i++;
     }
+    // printf("loooooooooool");
     i = 0;
     while (i < data->num_philos)
     {
@@ -83,7 +90,7 @@ void initial_data(int ac, char **av, t_data *data)
     parsing_argc(ac, av, data);
     data->philo = malloc(data->num_philos * sizeof(t_philo));
     memset(data->philo, 0, sizeof(t_philo) * data->num_philos);
-    data->philo->data_p = data;
+    // data->philo->data_p = data;
     initial_forks(data);
     thread_create(data);
 
