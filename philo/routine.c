@@ -24,8 +24,10 @@ void thinking(t_philo *philo)
 
 void sleping(t_philo *philo)
 {
-
+	pthread_mutex_lock(&philo->data_p->print_lock);
     printf("%d : sleping\n", philo->id);
+	pthread_mutex_unlock(&philo->data_p->print_lock);
+
     usleep(500);    
 }
 
