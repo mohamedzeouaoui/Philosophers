@@ -7,7 +7,7 @@ int main(int ac, char **av)
     cheack_parms(ac, av);
     initial_data(ac, av, &data);
 
-    while(1);
+    // while(1);
     // free(data.philo);
     return 0;
 

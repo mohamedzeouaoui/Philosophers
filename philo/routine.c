@@ -17,7 +17,9 @@ void eating(t_philo *philo)
 
 void thinking(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->data_p->print_lock);
     printf("%d : thinking\n", philo->id);
+	pthread_mutex_unlock(&philo->data_p->print_lock);
 }
 
 void sleping(t_philo *philo)
@@ -32,7 +34,8 @@ void routine(t_philo *philo)
     {
         usleep(60);
     }
-    while (1)
+    int i=0;
+    while (i < 10)
     {
         
         eating(philo);
@@ -40,7 +43,7 @@ void routine(t_philo *philo)
 
         thinking(philo);
 
-        
+        i++;
     }
     
 }

@@ -36,6 +36,7 @@ typedef struct s_data
     int num_times_to_eat;
     int is_dead;                    // Flag to indicate if a philosopher has died
     long long start_time;           // Time the simulation started
+	// pthread_mutex_t		print_mutex;
     pthread_mutex_t *forks;         // Array of mutexes representing forks
     pthread_mutex_t print_lock;     // Mutex for printing to avoid race conditions
     t_philo *philo;    // Pointer to an array of philosopher structs

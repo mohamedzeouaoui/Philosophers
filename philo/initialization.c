@@ -64,9 +64,13 @@ void    thread_create(t_data *data)
         pthread_create(&data->philo[i].thread, NULL, handel, &data->philo[i]);
         i++;
     }
-    // pthread_join(data->philo[0].thread, NULL);
-    
-    // pthread_join(data->philo[1].thread, NULL);
+    i = 0;
+    while (i < data->num_philos)
+    {
+        pthread_join(data->philo[i].thread, NULL);
+        i++;
+    }
+   
     
 
 }
