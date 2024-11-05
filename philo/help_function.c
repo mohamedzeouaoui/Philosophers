@@ -32,3 +32,20 @@ int	ft_atoi(char *str)
 	}
 	return (nmb);
 }
+
+long	current_time(void)
+{
+	struct timeval time;
+
+	gettimeofday(&time, NULL);
+	return(time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
+void	ft_usleep(int time_input_ms)
+{
+	long satart_time;
+
+	satart_time = current_time();
+	while(current_time() - satart_time < time_input_ms)
+		usleep(100);
+}
