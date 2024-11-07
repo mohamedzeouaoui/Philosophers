@@ -42,8 +42,11 @@ void    initial_forks(t_data *data)
            
         data->philo[i].id = i + 1; 
         i++;
+        pthread_mutex_init(&data->philo[i].cheack_deid, NULL);
+
     }
     pthread_mutex_init(&data->print_lock, NULL);
+    pthread_mutex_init(&data->meal_time_mutex, NULL);
 	// pthread_mutex_lock(&data->print_lock);
 	// pthread_mutex_unlock(&data->print_lock);
 
@@ -70,16 +73,42 @@ void    thread_create(t_data *data)
         pthread_create(&data->philo[i].thread, NULL, handel, &data->philo[i]);
         i++;
     }
+
+    // create new 
+
+
     // printf("loooooooooool");
-    i = 0;
-    while (i < data->num_philos)
-    {
-        pthread_join(data->philo[i].thread, NULL);
-        i++;
-    }
-   
+    // i = 0;
+    // while (i < data->num_philos)
+    // {
+    //     pthread_join(data->philo[i].thread, NULL);
+    //     i++;
+    // }
+    
+    
     
 
+
+    while (1) {
+        cheack_philo_died(data);
+        // check for death
+        // philo -> last time ate ith philo
+
+        /*
+            int i = 0;
+            int count = 0;
+            while (i < number of philo)
+                    // curr time - last time of ate of the ith >= timw_to_die ==> death
+                        || (optianl exists && all philo eat that number)
+                        // if death break ;
+                        all philo eat that number
+                        count++ if ith philo ate num
+                        if count == number of philo
+
+            usleep(200);
+        */
+    }
+   
 }
 
 void initial_data(int ac, char **av, t_data *data)
