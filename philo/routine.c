@@ -10,10 +10,11 @@ void eating(t_philo *philo)
     printf("%d : take a left fork\n", philo->id);
 	pthread_mutex_unlock(&philo->data_p->print_lock);
     
-    update_last_meal_time(philo);
 
     ft_usleep(philo->data_p->time_to_eat);
-
+    update_last_meal_time(philo);
+    printf(".....lst in eat.......%ld...\n", philo->last_meal_time);
+    // printf("............%d...\n", philo->data_p->time_to_eat);
     printf("%d : eating\n", philo->id);
 
     pthread_mutex_unlock(philo->right_fork);
@@ -55,5 +56,4 @@ void routine(t_philo *philo)
 
         i++;
     }
-    
 }

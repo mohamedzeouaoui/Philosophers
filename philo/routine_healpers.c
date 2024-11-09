@@ -1,10 +1,11 @@
 #include "philo.h"
 
 
-void cheack_philo_died(t_data *data)
+bool cheack_philo_died(t_data *data)
 {
     int i;
     long curent_time;
+    int mb;
     bool cheack;
 
     cheack = false;
@@ -15,6 +16,14 @@ void cheack_philo_died(t_data *data)
         while (i < data->num_philos)
         {
             pthread_mutex_lock(&data->philo[i].cheack_deid);
+
+
+            mb = curent_time - data->philo[i].last_meal_time;
+    printf("...mb.........%d...\n", mb);
+            
+    printf("......cur......%ld...\n", curent_time);
+    printf("......last......%ld...\n", data->philo[i].last_meal_time);
+
             if (curent_time - data->philo[i].last_meal_time > data->time_to_die)
             {
                 printf("philosopher %d has died\n", data->philo[i].id);
@@ -27,7 +36,7 @@ void cheack_philo_died(t_data *data)
         }
         usleep(1000);
     }
-    
+    return (cheack);
 }
 
 void update_last_meal_time(t_philo *philosopher)

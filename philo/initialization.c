@@ -90,6 +90,7 @@ void    thread_create(t_data *data)
 
 
     while (1) {
+        // ft_usleep(100);
         cheack_philo_died(data);
         // check for death
         // philo -> last time ate ith philo
@@ -108,6 +109,7 @@ void    thread_create(t_data *data)
             usleep(200);
         */
     }
+        // cheack_philo_died(data);
    
 }
 
@@ -119,7 +121,6 @@ void initial_data(int ac, char **av, t_data *data)
     parsing_argc(ac, av, data);
     data->philo = malloc(data->num_philos * sizeof(t_philo));
     memset(data->philo, 0, sizeof(t_philo) * data->num_philos);
-    // data->philo->data_p = data;
     initial_forks(data);
     thread_create(data);
 
