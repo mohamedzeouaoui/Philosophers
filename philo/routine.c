@@ -9,13 +9,14 @@ void eating(t_philo *philo)
 
     printf("%d : take a left fork\n", philo->id);
 	pthread_mutex_unlock(&philo->data_p->print_lock);
-    
-
-    ft_usleep(philo->data_p->time_to_eat);
     update_last_meal_time(philo);
-    printf(".....lst in eat.......%ld...\n", philo->last_meal_time);
+    printf("%d : is  eating\n", philo->id);
+    
+    ft_usleep(philo->data_p->time_to_eat);
+
+
+    // printf(".....lst in eat.......%ld...\n", philo->last_meal_time);
     // printf("............%d...\n", philo->data_p->time_to_eat);
-    printf("%d : eating\n", philo->id);
 
     pthread_mutex_unlock(philo->right_fork);
     pthread_mutex_unlock(philo->left_fork);
@@ -25,16 +26,16 @@ void eating(t_philo *philo)
 
 void thinking(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data_p->print_lock);
+	// pthread_mutex_lock(&philo->think);
     printf("%d : thinking\n", philo->id);
-	pthread_mutex_unlock(&philo->data_p->print_lock);
+	// pthread_mutex_unlock(&philo->think);
 }
 
 void sleping(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data_p->print_lock);
+	// pthread_mutex_lock(&philo->data_p->print_lock);
     printf("%d : sleping\n", philo->id);
-	pthread_mutex_unlock(&philo->data_p->print_lock);
+	// pthread_mutex_unlock(&philo->data_p->print_lock);
     
     ft_usleep(philo->data_p->time_to_sleep);    
 }
@@ -45,8 +46,8 @@ void routine(t_philo *philo)
     {
         ft_usleep(100);
     }
-    int i=0;
-    while (i < 6)
+    // int i=0;
+    while (1)
     {
         
         eating(philo);
@@ -54,6 +55,6 @@ void routine(t_philo *philo)
 
         thinking(philo);
 
-        i++;
+        // i++;
     }
 }

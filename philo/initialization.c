@@ -43,10 +43,12 @@ void    initial_forks(t_data *data)
         data->philo[i].id = i + 1; 
         i++;
         pthread_mutex_init(&data->philo[i].cheack_deid, NULL);
+        pthread_mutex_init(&data->philo[i].think, NULL);
 
     }
     pthread_mutex_init(&data->print_lock, NULL);
     pthread_mutex_init(&data->meal_time_mutex, NULL);
+
 	// pthread_mutex_lock(&data->print_lock);
 	// pthread_mutex_unlock(&data->print_lock);
 
@@ -66,32 +68,38 @@ void *handel(void *argument)
 void    thread_create(t_data *data)
 {
     int i;
+    pthread_t monitor;
 
     i = 0;
     while (i < data->num_philos)
     {
         pthread_create(&data->philo[i].thread, NULL, handel, &data->philo[i]);
         i++;
+        // pthread_detach(data->philo[i].thread);
     }
-
+    pthread_create(&monitor, NULL, cheack_philo_died, data);
     // create new 
 
 
     // printf("loooooooooool");
-    // i = 0;
-    // while (i < data->num_philos)
-    // {
-    //     pthread_join(data->philo[i].thread, NULL);
-    //     i++;
-    // }
+    i = 0;
+    while (i < data->num_philos)
+    {
+        pthread_join(data->philo[i].thread, NULL);
+        i++;
+        // cheack_philo_died(data);
+
+    }
     
-    
+    pthread_join(monitor, NULL);
     
 
 
-    while (1) {
-        // ft_usleep(100);
-        cheack_philo_died(data);
+    // while (1) {
+        // ft_usleep(data->time_to_die);
+        // printf("hello word %ld \n", data->philo[0].last_meal_time);
+        // if(cheack_philo_died(data))
+            // break;
         // check for death
         // philo -> last time ate ith philo
 
@@ -108,7 +116,7 @@ void    thread_create(t_data *data)
 
             usleep(200);
         */
-    }
+    // }
         // cheack_philo_died(data);
    
 }
