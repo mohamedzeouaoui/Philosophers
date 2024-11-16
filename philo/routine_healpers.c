@@ -11,7 +11,7 @@ void *cheack_philo_died(void *ptr)
 
     cheack = false;
     data = (t_data*)ptr;
-    ft_usleep(data->time_to_die);
+    // ft_usleep(data->time_to_die);
     while (!cheack)
     {
         curent_time = current_time();
@@ -19,34 +19,28 @@ void *cheack_philo_died(void *ptr)
         while (i < data->num_philos)
         {
             pthread_mutex_lock(&data->philo[i].cheack_deid);
-
-
-            mb = curent_time - data->philo[i].last_meal_time;
-            // printf("...mb.........%d...\n", mb);
-            
-            // printf("......cur......%d...\n",  data->philo[i].id);
-            // printf("...id : %d...last......%ld...\n",  data->philo[i].id ,data->philo[i].last_meal_time);
-
-            if (curent_time - data->philo[i].last_meal_time > data->time_to_die)
+            mb = current_time() - data->philo[i].last_meal_time;
+            if (mb > data->time_to_die)
             {
                 printf("philosopher %d has died\n", data->philo[i].id);
                 cheack = true;
                 pthread_mutex_unlock(&data->philo[i].cheack_deid);
+                exit(1);
                 return NULL;
             }
-            i++;
             pthread_mutex_unlock(&data->philo[i].cheack_deid);
+            i++;
         }
-        usleep(1000);
+        // usleep(1000);
     }
     return NULL;
 }
 
 void update_last_meal_time(t_philo *philosopher)
 {
-    pthread_mutex_lock(&philosopher->data_p->meal_time_mutex);
+    pthread_mutex_lock(&philosopher->cheack_deid);
     philosopher->last_meal_time = current_time();
-    pthread_mutex_unlock(&philosopher->data_p->meal_time_mutex);
+    pthread_mutex_unlock(&philosopher->cheack_deid);
     // printf(".....last update.......%ld...\n", philosopher->last_meal_time);
 
 }

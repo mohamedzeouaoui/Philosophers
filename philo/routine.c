@@ -2,18 +2,20 @@
 
 void eating(t_philo *philo)
 {
+    // condition: if (numof_philos == 1): take own fork sleep time to die return ;
     pthread_mutex_lock(philo->right_fork);
-    printf("%d : take a right fork\n", philo->id);
+    printf("%ld  %d  take a right fork\n", (current_time() - philo->data_p->start_time), philo->id);
     pthread_mutex_lock(philo->left_fork);
-	pthread_mutex_lock(&philo->data_p->print_lock);
+	// pthread_mutex_lock(&philo->data_p->print_lock);
 
-    printf("%d : take a left fork\n", philo->id);
-	pthread_mutex_unlock(&philo->data_p->print_lock);
-    update_last_meal_time(philo);
-    printf("%d : is  eating\n", philo->id);
+    printf("%ld  %d  take a left fork\n",(current_time() - philo->data_p->start_time), philo->id);
+	// pthread_mutex_unlock(&philo->data_p->print_lock);
+    printf("%ld  %d  is  eating\n", (current_time() - philo->data_p->start_time), philo->id);
+    // printf("%ld\n", current_time());
     
-    ft_usleep(philo->data_p->time_to_eat);
+    update_last_meal_time(philo);
 
+    ft_usleep(philo->data_p->time_to_eat);
 
     // printf(".....lst in eat.......%ld...\n", philo->last_meal_time);
     // printf("............%d...\n", philo->data_p->time_to_eat);
@@ -27,14 +29,14 @@ void eating(t_philo *philo)
 void thinking(t_philo *philo)
 {
 	// pthread_mutex_lock(&philo->think);
-    printf("%d : thinking\n", philo->id);
+    printf("%ld  %d  thinking\n", (current_time() - philo->data_p->start_time), philo->id);
 	// pthread_mutex_unlock(&philo->think);
 }
 
 void sleping(t_philo *philo)
 {
 	// pthread_mutex_lock(&philo->data_p->print_lock);
-    printf("%d : sleping\n", philo->id);
+    printf("%ld  %d  sleping\n",(current_time() - philo->data_p->start_time), philo->id);
 	// pthread_mutex_unlock(&philo->data_p->print_lock);
     
     ft_usleep(philo->data_p->time_to_sleep);    
@@ -44,7 +46,7 @@ void routine(t_philo *philo)
 {
     if (philo->id % 2 == 0)
     {
-        ft_usleep(100);
+        ft_usleep(philo->data_p->time_to_eat - 10);
     }
     // int i=0;
     while (1)

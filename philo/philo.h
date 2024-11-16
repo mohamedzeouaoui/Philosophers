@@ -40,7 +40,7 @@ typedef struct s_data
     int time_to_sleep;              // Time required to sleep
     int num_times_to_eat;
     int is_dead;                    // Flag to indicate if a philosopher has died
-    long long start_time;           // Time the simulation started
+    long start_time;           // Time the simulation started
 	// pthread_mutex_t		print_mutex;
     pthread_mutex_t meal_time_mutex;
     pthread_mutex_t *forks;         // Array of mutexes representing forks

@@ -71,24 +71,20 @@ void    thread_create(t_data *data)
     pthread_t monitor;
 
     i = 0;
+    data->start_time = current_time();
     while (i < data->num_philos)
     {
         pthread_create(&data->philo[i].thread, NULL, handel, &data->philo[i]);
         i++;
-        // pthread_detach(data->philo[i].thread);
     }
-    pthread_create(&monitor, NULL, cheack_philo_died, data);
+    // pthread_create(&monitor, NULL, cheack_philo_died, data);
     // create new 
-
-
-    // printf("loooooooooool");
+    cheack_philo_died(data);
     i = 0;
     while (i < data->num_philos)
     {
         pthread_join(data->philo[i].thread, NULL);
         i++;
-        // cheack_philo_died(data);
-
     }
     
     pthread_join(monitor, NULL);
@@ -129,6 +125,12 @@ void initial_data(int ac, char **av, t_data *data)
     parsing_argc(ac, av, data);
     data->philo = malloc(data->num_philos * sizeof(t_philo));
     memset(data->philo, 0, sizeof(t_philo) * data->num_philos);
+    nb  = 0;
+    while (data->num_philos > nb)
+    {
+        data->philo[nb].last_meal_time = current_time();
+        nb++;
+    }
     initial_forks(data);
     thread_create(data);
 
