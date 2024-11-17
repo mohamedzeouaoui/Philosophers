@@ -24,7 +24,7 @@ typedef struct s_philo
     int meals_eaten;                // Number of meals eaten
     long last_meal_time;            // Time of the last meal
     // pthread_mutex_t meal_mutex ;
-    pthread_mutex_t think;
+    pthread_mutex_t meals_mutex;
     pthread_mutex_t cheack_deid;
     pthread_mutex_t *left_fork;     // Pointer to the left fork
     pthread_mutex_t *right_fork;    // Pointer to the right fork
@@ -64,6 +64,8 @@ void	ft_usleep(int time_input_ms);
 void update_last_meal_time(t_philo *philosopher);
 long	current_time(void);
 void *cheack_philo_died(void *ptr);
+long time_to_print(t_philo *philo);
+void *cheack_max_eating(t_data *data);
 
 
 

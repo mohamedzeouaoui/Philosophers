@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -Wall -Werror -Wextra -fsanitize=thread -g3
+FLAGS = -g3 -Wall -Werror -Wextra #-fsanitize=thread 
 NAME = philo
 SRC = philo.c parsing.c help_function.c initialization.c routine.c routine_healpers.c
 

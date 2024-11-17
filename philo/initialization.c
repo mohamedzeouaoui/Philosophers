@@ -5,6 +5,7 @@ void parsing_argc(int ac, char **av, t_data *data)
     int i;
 
     i = 1;
+    data->num_times_to_eat = -1;
     while (i < ac)
     {
         if(i == 1)
@@ -29,21 +30,25 @@ void    initial_forks(t_data *data)
 
     i = 0;
     nb = 0;
-    while (nb < data->num_philos)
-        data->philo[nb++].right_fork = malloc(sizeof(pthread_mutex_t));
+   // sleep(1);
+
+    while (nb < data->num_philos){
+        data->philo[nb++].right_fork = (pthread_mutex_t*)malloc(sizeof(pthread_mutex_t));
+    }
+    // printf("hhhhhhhhhhhh");
     while (i < data->num_philos)
     {
         pthread_mutex_init(data->philo[i].right_fork, NULL);
-        if (i == 0)
+        if (i == 0 && data->num_philos != 1)
             data->philo[i].left_fork = data->philo[data->num_philos - 1].right_fork;
-        else
+        else if ( data->num_philos != 1)
             data->philo[i].left_fork = data->philo[i - 1].right_fork;
         data->philo[i].data_p = data;
            
         data->philo[i].id = i + 1; 
-        i++;
         pthread_mutex_init(&data->philo[i].cheack_deid, NULL);
-        pthread_mutex_init(&data->philo[i].think, NULL);
+        pthread_mutex_init(&data->philo[i].meals_mutex , NULL);
+        i++;
 
     }
     pthread_mutex_init(&data->print_lock, NULL);
@@ -68,7 +73,7 @@ void *handel(void *argument)
 void    thread_create(t_data *data)
 {
     int i;
-    pthread_t monitor;
+    // pthread_t monitor;
 
     i = 0;
     data->start_time = current_time();
@@ -80,6 +85,7 @@ void    thread_create(t_data *data)
     // pthread_create(&monitor, NULL, cheack_philo_died, data);
     // create new 
     cheack_philo_died(data);
+
     i = 0;
     while (i < data->num_philos)
     {
@@ -87,7 +93,7 @@ void    thread_create(t_data *data)
         i++;
     }
     
-    pthread_join(monitor, NULL);
+    // pthread_join(monitor, NULL);
     
 
 
@@ -123,7 +129,11 @@ void initial_data(int ac, char **av, t_data *data)
 
     nb = 0;
     parsing_argc(ac, av, data);
-    data->philo = malloc(data->num_philos * sizeof(t_philo));
+    data->philo = (t_philo *)malloc((data->num_philos) * sizeof(t_philo));
+    if (data->philo == NULL){
+        puts("malloc failed");
+        exit(2);
+    }
     memset(data->philo, 0, sizeof(t_philo) * data->num_philos);
     nb  = 0;
     while (data->num_philos > nb)

@@ -1,8 +1,24 @@
 #include "philo.h"
 
+void    eating_1philo(t_philo *philo)
+{
+    if (philo->data_p->num_philos == 1)
+    {
+        pthread_mutex_lock(philo->right_fork);
+        printf("%ld  %d  take a right fork\n", (current_time() - philo->data_p->start_time), philo->id);
+        ft_usleep(philo->data_p->time_to_die);
+        pthread_mutex_unlock(philo->right_fork);
+
+    }
+    return ;
+}
+
+
 void eating(t_philo *philo)
 {
     // condition: if (numof_philos == 1): take own fork sleep time to die return ;
+    // if (philo->data_p->num_philos == 1)
+    //     return eating_1philo(philo);
     pthread_mutex_lock(philo->right_fork);
     printf("%ld  %d  take a right fork\n", (current_time() - philo->data_p->start_time), philo->id);
     pthread_mutex_lock(philo->left_fork);
@@ -22,7 +38,7 @@ void eating(t_philo *philo)
 
     pthread_mutex_unlock(philo->right_fork);
     pthread_mutex_unlock(philo->left_fork);
-
+    philo->meals_eaten = philo->meals_eaten + 1;
 
 }
 
@@ -51,8 +67,13 @@ void routine(t_philo *philo)
     // int i=0;
     while (1)
     {
-        
-        eating(philo);
+        if (philo->data_p->num_philos == 1)
+        {
+            eating_1philo(philo);
+            break;
+        }
+        else
+            eating(philo);
         sleping(philo);
 
         thinking(philo);
