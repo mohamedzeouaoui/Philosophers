@@ -51,8 +51,9 @@ void    initial_forks(t_data *data)
         i++;
 
     }
-    pthread_mutex_init(&data->print_lock, NULL);
+    pthread_mutex_init(&data->write_lock, NULL);
     pthread_mutex_init(&data->meal_time_mutex, NULL);
+    pthread_mutex_init(&data->check_death, NULL);
 
 	// pthread_mutex_lock(&data->print_lock);
 	// pthread_mutex_unlock(&data->print_lock);
@@ -64,6 +65,7 @@ void *handel(void *argument)
     t_philo *philo;
 
     philo = (t_philo *)argument;
+    
     routine(philo);
 
 
@@ -83,8 +85,9 @@ void    thread_create(t_data *data)
         i++;
     }
     // pthread_create(&monitor, NULL, cheack_philo_died, data);
-    // create new 
+    // create new
     cheack_philo_died(data);
+
 
     i = 0;
     while (i < data->num_philos)
@@ -92,6 +95,7 @@ void    thread_create(t_data *data)
         pthread_join(data->philo[i].thread, NULL);
         i++;
     }
+
     
     // pthread_join(monitor, NULL);
     
@@ -132,9 +136,12 @@ void initial_data(int ac, char **av, t_data *data)
     data->philo = (t_philo *)malloc((data->num_philos) * sizeof(t_philo));
     if (data->philo == NULL){
         puts("malloc failed");
-        exit(2);
+        return ;
     }
     memset(data->philo, 0, sizeof(t_philo) * data->num_philos);
+    data->is_dead = false ;
+    data->is_errore = false ;
+
     nb  = 0;
     while (data->num_philos > nb)
     {
