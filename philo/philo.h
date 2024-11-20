@@ -28,6 +28,8 @@ typedef struct s_philo
 	int				id;
 	int				meals_eaten;
 	long			last_meal_time;
+	bool			cheack_max_eat;
+	pthread_mutex_t	cheack_num_eat_mutex;
 	pthread_mutex_t	meals_mutex;
 	pthread_mutex_t	cheack_deid;
 	pthread_mutex_t	*left_fork;
@@ -45,6 +47,7 @@ typedef struct s_data
 	bool			is_dead;
 	bool			is_errore;
 	long			start_time;
+
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	meal_time_mutex;
 	pthread_mutex_t	*forks;
@@ -53,6 +56,10 @@ typedef struct s_data
 	t_philo			*philo;
 }					t_data;
 
+void				ft_print_deid(t_data *data, int i);
+void				ft_lock_print(char *str, t_philo *p);
+void				eating_pair(t_philo *philo);
+void				eating_inpair(t_philo *philo);
 void				eating_1philo(t_philo *philo);
 void				cheack_parms(int ac, char **av);
 void				print_error(char *message_error);

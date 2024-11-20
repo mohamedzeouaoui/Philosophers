@@ -62,21 +62,13 @@ void	initial_forks(t_data *data)
 		data->philo[i].id = i + 1;
 		pthread_mutex_init(&data->philo[i].cheack_deid, NULL);
 		pthread_mutex_init(&data->philo[i].meals_mutex, NULL);
+		pthread_mutex_init(&data->philo[i].cheack_num_eat_mutex, NULL);
 		i++;
 	}
 	pthread_mutex_init(&data->write_lock, NULL);
 	pthread_mutex_init(&data->meal_time_mutex, NULL);
 	pthread_mutex_init(&data->check_death, NULL);
 }
-
-// void	*handel(void *argument)
-// {
-// 	t_philo	*philo;
-
-// 	philo = (t_philo *)argument;
-// 	routine(philo);
-// 	return (NULL);
-// }
 
 void	thread_create(t_data *data)
 {

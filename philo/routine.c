@@ -12,49 +12,22 @@
 
 #include "philo.h"
 
-void	ft_lock_print(char *str, t_philo *p)
-{
-	long	nb;
-
-	pthread_mutex_lock(&p->data_p->write_lock);
-	if (!p->data_p->is_dead)
-	{
-		nb = (current_time() - p->data_p->start_time);
-		printf("%ld %d %s\n", nb, p->id, str);
-	}
-	pthread_mutex_unlock(&p->data_p->write_lock);
-}
-
 void	eating(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data_p->check_death);
 	if (philo->id % 2 == 0 && !philo->data_p->is_dead)
 	{
 		pthread_mutex_unlock(&philo->data_p->check_death);
-		pthread_mutex_lock(philo->right_fork);
-		ft_lock_print("take a right fork", philo);
-		pthread_mutex_lock(philo->left_fork);
-		ft_lock_print("take a left fork", philo);
-		ft_lock_print("is eating", philo);
-		update_last_meal_time(philo);
-		ft_usleep(philo->data_p->time_to_eat);
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
+		eating_pair(philo);
 	}
 	if (philo->id % 2 == 1 && !philo->data_p->is_dead)
 	{
 		pthread_mutex_unlock(&philo->data_p->check_death);
-		pthread_mutex_lock(philo->left_fork);
-		ft_lock_print("take a left fork", philo);
-		pthread_mutex_lock(philo->right_fork);
-		ft_lock_print("take a right fork", philo);
-		ft_lock_print("is eating", philo);
-		update_last_meal_time(philo);
-		ft_usleep(philo->data_p->time_to_eat);
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
+		eating_inpair(philo);
 	}
-	philo->meals_eaten = philo->meals_eaten + 1;
+	pthread_mutex_lock(&philo->cheack_num_eat_mutex);
+	philo->meals_eaten++;
+	pthread_mutex_unlock(&philo->cheack_num_eat_mutex);
 }
 
 void	thinking(t_philo *philo)
@@ -72,6 +45,15 @@ void	sleping(t_philo *philo)
 		ft_lock_print("sleeping", philo);
 		ft_usleep(philo->data_p->time_to_sleep);
 	}
+}
+
+long	calcule_time_impair(t_philo *philo)
+{
+	long	nb;
+
+	nb = (philo->data_p->time_to_die - (current_time()
+				- philo->last_meal_time));
+	return (nb / 2);
 }
 
 void	*routine(void *argument)
@@ -94,6 +76,10 @@ void	*routine(void *argument)
 			eating(philo);
 		sleping(philo);
 		thinking(philo);
+		if (philo->data_p->num_philos % 2)
+		{
+			ft_usleep(calcule_time_impair(philo));
+		}
 	}
 	return (NULL);
 }

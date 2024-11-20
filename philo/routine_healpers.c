@@ -30,10 +30,7 @@ int	func_25_check_deid(t_data *data, int *i, int *ll)
 	if (current_time() - data->philo[*i].last_meal_time > data->time_to_die)
 	{
 		pthread_mutex_lock(&data->check_death);
-		pthread_mutex_lock(&data->write_lock);
-		printf("%ld philosopher %d has died\n", current_time()
-			- data->start_time, data->philo[*i].id);
-		pthread_mutex_unlock(&data->write_lock);
+		ft_print_deid(data, *i);
 		data->is_dead = true;
 		data->is_errore = true;
 		pthread_mutex_unlock(&data->check_death);
@@ -41,9 +38,18 @@ int	func_25_check_deid(t_data *data, int *i, int *ll)
 		return (-1);
 	}
 	pthread_mutex_unlock(&data->philo[*i].cheack_deid);
-	if (data->philo[*i].meals_eaten > data->num_times_to_eat
+	pthread_mutex_lock(&data->philo[*i].cheack_num_eat_mutex);
+	if (data->philo[*i].meals_eaten == data->num_times_to_eat
 		&& data->num_times_to_eat != -1)
+	{
+		data->philo[*i].meals_eaten = data->num_times_to_eat + 1;
 		(*ll)++;
+	}
+	pthread_mutex_lock(&data->check_death);
+	if (*ll == data->num_philos)
+		return (data->is_dead = true, -1);
+	pthread_mutex_unlock(&data->check_death);
+	pthread_mutex_unlock(&data->philo[*i].cheack_num_eat_mutex);
 	return (0);
 }
 
@@ -63,11 +69,6 @@ void	*cheack_philo_died(void *ptr)
 			if (func_25_check_deid(data, &i, &ll) == -1)
 				return (NULL);
 			i++;
-		}
-		if (ll == data->num_philos)
-		{
-			data->is_dead = true;
-			return (NULL);
 		}
 	}
 	return (NULL);

@@ -1,7 +1,8 @@
 CC = cc
-FLAGS = -Wall -Werror -Wextra -g3 #-fsanitize=thread
+FLAGS = -Wall -Werror -Wextra -g3 -fsanitize=thread
 NAME = philo
-SRC = philo.c parsing.c help_function.c initialization.c routine.c routine_healpers.c
+SRC = philo.c parsing.c help_function.c initialization.c routine.c routine_healpers.c\
+		routine_utils.c
 
 OBJ = $(SRC:.c=.o)
 
