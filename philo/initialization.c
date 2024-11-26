@@ -12,16 +12,22 @@
 
 #include "philo.h"
 
-void	cheack_max_int(long i)
+int	cheack_max_int(long i)
 {
+	int n;
+
+	n = 0;
 	if (i > __INT_MAX__)
-		print_error("eroore");
+		n = print_error("error number");
+	return (n);
 }
 
-void	parsing_argc(int ac, char **av, t_data *data)
+int	parsing_argc(int ac, char **av, t_data *data)
 {
 	int	i;
+	int n;
 
+	n = 0;
 	i = 1;
 	data->num_times_to_eat = -1;
 	while (i < ac)
@@ -36,9 +42,14 @@ void	parsing_argc(int ac, char **av, t_data *data)
 			data->time_to_sleep = ft_atoi(av[4]);
 		else if (i == 5)
 			data->num_times_to_eat = ft_atoi(av[5]);
-		cheack_max_int(ft_atoi(av[i]));
+		n = cheack_max_int(ft_atoi(av[i]));
+		if (n == 1)
+		{
+			return(n);		
+		}
 		i++;
 	}
+	return (n);
 }
 
 void	initial_forks(t_data *data)
@@ -90,17 +101,18 @@ void	thread_create(t_data *data)
 	}
 }
 
-void	initial_data(int ac, char **av, t_data *data)
+int	initial_data(int ac, char **av, t_data *data)
 {
 	int	nb;
 
 	nb = 0;
-	parsing_argc(ac, av, data);
+	if(parsing_argc(ac, av, data) == 1)
+		return(1);
 	data->philo = (t_philo *)malloc((data->num_philos) * sizeof(t_philo));
 	if (data->philo == NULL)
 	{
 		print_error("malloc failed");
-		return ;
+		return (-1);
 	}
 	memset(data->philo, 0, sizeof(t_philo) * data->num_philos);
 	data->is_dead = false;
@@ -115,4 +127,5 @@ void	initial_data(int ac, char **av, t_data *data)
 	}
 	initial_forks(data);
 	thread_create(data);
+	return(0);
 }

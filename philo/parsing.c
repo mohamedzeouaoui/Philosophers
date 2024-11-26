@@ -12,21 +12,28 @@
 
 #include "philo.h"
 
-void	cheack_parms(int ac, char **av)
+int	cheack_parms(int ac, char **av)
 {
-	int	i;
+	int	r;
 
+	r = 0;
 	if (ac != 6 && ac != 5)
-		print_error("nombre of arguments (Expected 5 or 6)");
-	cheack_numbers(ac, av);
+	{ 
+		r = print_error("nombre of arguments (Expected 5 or 6)");
+		return(r);
+	}
+	r = cheack_numbers(ac, av);
+	return (r);
 }
 
-void	cheack_numbers(int ac, char **av)
+int	cheack_numbers(int ac, char **av)
 {
 	int	i;
 	int	j;
+	int r;
 
 	j = 1;
+	r = 0;
 	while (j < ac)
 	{
 		i = 0;
@@ -37,9 +44,23 @@ void	cheack_numbers(int ac, char **av)
 			else
 			{
 				printf("Argument %d ", j);
-				print_error("is not valid (we need numbers)");
+				r = print_error("is not valid (we need numbers)");
+				return(r);
 			}
 		}
 		j++;
 	}
+	return(r);
+}
+
+int	ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
 }

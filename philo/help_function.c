@@ -12,11 +12,11 @@
 
 #include "philo.h"
 
-void	print_error(char *message_error)
+int	print_error(char *message_error)
 {
 	printf("Error: ");
 	printf("%s\n", message_error);
-	exit(EXIT_FAILURE);
+	return (1);
 }
 
 int	ft_isdigit(int c)
@@ -36,7 +36,7 @@ long	ft_atoi(char *str)
 	long	nmb;
 
 	nmb = 0;
-	if (strlen(str) >= 12)
+	if (ft_strlen(str) >= 12)
 		return (1L << 31);
 	while (*str >= '0' && *str <= '9')
 	{
