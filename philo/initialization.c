@@ -14,7 +14,7 @@
 
 int	cheack_max_int(long i)
 {
-	int n;
+	int	n;
 
 	n = 0;
 	if (i > __INT_MAX__)
@@ -25,7 +25,7 @@ int	cheack_max_int(long i)
 int	parsing_argc(int ac, char **av, t_data *data)
 {
 	int	i;
-	int n;
+	int	n;
 
 	n = 0;
 	i = 1;
@@ -44,9 +44,7 @@ int	parsing_argc(int ac, char **av, t_data *data)
 			data->num_times_to_eat = ft_atoi(av[5]);
 		n = cheack_max_int(ft_atoi(av[i]));
 		if (n == 1)
-		{
-			return(n);		
-		}
+			return (n);
 		i++;
 	}
 	return (n);
@@ -106,8 +104,8 @@ int	initial_data(int ac, char **av, t_data *data)
 	int	nb;
 
 	nb = 0;
-	if(parsing_argc(ac, av, data) == 1)
-		return(1);
+	if (parsing_argc(ac, av, data) == 1)
+		return (1);
 	data->philo = (t_philo *)malloc((data->num_philos) * sizeof(t_philo));
 	if (data->philo == NULL)
 	{
@@ -127,5 +125,5 @@ int	initial_data(int ac, char **av, t_data *data)
 	}
 	initial_forks(data);
 	thread_create(data);
-	return(0);
+	return (0);
 }

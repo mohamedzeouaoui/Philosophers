@@ -17,13 +17,13 @@ int	main(int ac, char **av)
 	t_data	*data;
 	int		i;
 
-	if(cheack_parms(ac, av) == 1)
+	if (cheack_parms(ac, av) == 1)
 		return (1);
 	data = malloc(sizeof(t_data));
-	if(initial_data(ac, av, data) == 1)
+	if (initial_data(ac, av, data) == 1)
 	{
 		free(data);
-		return(1);
+		return (1);
 	}
 	i = 0;
 	while (i < data->num_philos)

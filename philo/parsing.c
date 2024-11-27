@@ -18,9 +18,9 @@ int	cheack_parms(int ac, char **av)
 
 	r = 0;
 	if (ac != 6 && ac != 5)
-	{ 
+	{
 		r = print_error("nombre of arguments (Expected 5 or 6)");
-		return(r);
+		return (r);
 	}
 	r = cheack_numbers(ac, av);
 	return (r);
@@ -30,7 +30,7 @@ int	cheack_numbers(int ac, char **av)
 {
 	int	i;
 	int	j;
-	int r;
+	int	r;
 
 	j = 1;
 	r = 0;
@@ -45,12 +45,12 @@ int	cheack_numbers(int ac, char **av)
 			{
 				printf("Argument %d ", j);
 				r = print_error("is not valid (we need numbers)");
-				return(r);
+				return (r);
 			}
 		}
 		j++;
 	}
-	return(r);
+	return (r);
 }
 
 int	ft_strlen(const char *str)
