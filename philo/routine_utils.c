@@ -25,11 +25,16 @@ void	ft_lock_print(char *str, t_philo *p)
 	long	nb;
 
 	pthread_mutex_lock(&p->data_p->write_lock);
+	pthread_mutex_lock(&p->data_p->died_mutex);
 	if (!p->data_p->is_dead)
 	{
+		pthread_mutex_unlock(&p->data_p->died_mutex);
 		nb = (current_time() - p->data_p->start_time);
 		printf("%ld %d %s\n", nb, p->id, str);
 	}
+	else
+		pthread_mutex_unlock(&p->data_p->died_mutex);
+
 	pthread_mutex_unlock(&p->data_p->write_lock);
 }
 

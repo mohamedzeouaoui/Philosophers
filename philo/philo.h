@@ -48,6 +48,7 @@ typedef struct s_data
 	bool			is_errore;
 	long			start_time;
 
+	pthread_mutex_t died_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	meal_time_mutex;
 	pthread_mutex_t	*forks;

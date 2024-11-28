@@ -31,7 +31,11 @@ int	func_25_check_deid(t_data *data, int *i, int *ll)
 	{
 		pthread_mutex_lock(&data->check_death);
 		ft_print_deid(data, *i);
+		pthread_mutex_lock(&data->died_mutex);
+
 		data->is_dead = true;
+		pthread_mutex_unlock(&data->died_mutex);
+
 		data->is_errore = true;
 		pthread_mutex_unlock(&data->check_death);
 		pthread_mutex_unlock(&data->philo[*i].cheack_deid);
@@ -47,7 +51,14 @@ int	func_25_check_deid(t_data *data, int *i, int *ll)
 	}
 	pthread_mutex_lock(&data->check_death);
 	if (*ll == data->num_philos)
-		return (data->is_dead = true, -1);
+	{
+		pthread_mutex_lock(&data->died_mutex);
+		data->is_dead = true;
+		pthread_mutex_unlock(&data->died_mutex);
+		return (-1);
+		
+
+	}
 	pthread_mutex_unlock(&data->check_death);
 	pthread_mutex_unlock(&data->philo[*i].cheack_num_eat_mutex);
 	return (0);

@@ -74,6 +74,7 @@ void	initial_forks(t_data *data)
 		pthread_mutex_init(&data->philo[i].cheack_num_eat_mutex, NULL);
 		i++;
 	}
+	pthread_mutex_init(&data->died_mutex, NULL);
 	pthread_mutex_init(&data->write_lock, NULL);
 	pthread_mutex_init(&data->meal_time_mutex, NULL);
 	pthread_mutex_init(&data->check_death, NULL);
@@ -114,7 +115,6 @@ int	initial_data(int ac, char **av, t_data *data)
 	}
 	memset(data->philo, 0, sizeof(t_philo) * data->num_philos);
 	data->is_dead = false;
-	data->is_errore = false;
 	nb = 0;
 	if (data->time_to_die < data->time_to_eat)
 		data->time_to_eat = data->time_to_die + 1;
