@@ -70,7 +70,6 @@ void	initial_forks(t_data *data)
 		data->philo[i].data_p = data;
 		data->philo[i].id = i + 1;
 		pthread_mutex_init(&data->philo[i].cheack_deid, NULL);
-		pthread_mutex_init(&data->philo[i].meals_mutex, NULL);
 		pthread_mutex_init(&data->philo[i].cheack_num_eat_mutex, NULL);
 		i++;
 	}

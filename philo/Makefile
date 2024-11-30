@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -lpthread -g3 -fsanitize=thread
+CFLAGS = -Wall -Werror -Wextra -lpthread -g3 -fsanitize=address
 NAME = philo
 SRC = philo.c parsing.c help_function.c initialization.c routine.c routine_healpers.c\
 		routine_utils.c

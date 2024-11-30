@@ -34,16 +34,15 @@ void	ft_lock_print(char *str, t_philo *p)
 	}
 	else
 		pthread_mutex_unlock(&p->data_p->died_mutex);
-
 	pthread_mutex_unlock(&p->data_p->write_lock);
 }
 
 void	eating_pair(t_philo *philo)
 {
 	pthread_mutex_lock(philo->right_fork);
-	ft_lock_print("take a right fork", philo);
+	ft_lock_print("has taken a fork", philo);
 	pthread_mutex_lock(philo->left_fork);
-	ft_lock_print("take a left fork", philo);
+	ft_lock_print("has taken a fork", philo);
 	ft_lock_print("is eating", philo);
 	update_last_meal_time(philo);
 	ft_usleep(philo->data_p->time_to_eat);
@@ -54,12 +53,19 @@ void	eating_pair(t_philo *philo)
 void	eating_inpair(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
-	ft_lock_print("take a left fork", philo);
+	ft_lock_print("has taken a fork", philo);
 	pthread_mutex_lock(philo->right_fork);
-	ft_lock_print("take a right fork", philo);
+	ft_lock_print("has taken a fork", philo);
 	ft_lock_print("is eating", philo);
 	update_last_meal_time(philo);
 	ft_usleep(philo->data_p->time_to_eat);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
+}
+
+void	update_last_meal_time(t_philo *philosopher)
+{
+	pthread_mutex_lock(&philosopher->cheack_deid);
+	philosopher->last_meal_time = current_time();
+	pthread_mutex_unlock(&philosopher->cheack_deid);
 }

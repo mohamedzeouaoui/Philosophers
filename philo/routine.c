@@ -16,7 +16,6 @@ void	eating(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data_p->check_death);
 	pthread_mutex_lock(&philo->data_p->died_mutex);
-
 	if (philo->id % 2 == 0 && !philo->data_p->is_dead)
 	{
 		pthread_mutex_unlock(&philo->data_p->died_mutex);
@@ -26,13 +25,11 @@ void	eating(t_philo *philo)
 	else if (philo->id % 2 == 1 && !philo->data_p->is_dead)
 	{
 		pthread_mutex_unlock(&philo->data_p->died_mutex);
-
 		pthread_mutex_unlock(&philo->data_p->check_death);
 		eating_inpair(philo);
 	}
-	else 
+	else
 		pthread_mutex_unlock(&philo->data_p->died_mutex);
-
 	pthread_mutex_lock(&philo->cheack_num_eat_mutex);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->cheack_num_eat_mutex);
@@ -44,12 +41,10 @@ void	thinking(t_philo *philo)
 	if (!philo->data_p->is_dead)
 	{
 		pthread_mutex_unlock(&philo->data_p->died_mutex);
-
 		ft_lock_print("is thinking", philo);
-		return;
+		return ;
 	}
 	pthread_mutex_unlock(&philo->data_p->died_mutex);
-
 }
 
 void	sleping(t_philo *philo)
@@ -80,9 +75,7 @@ void	*routine(void *argument)
 
 	philo = (t_philo *)argument;
 	if (philo->id % 2 == 0)
-	{
 		ft_usleep(philo->data_p->time_to_eat - 10);
-	}
 	pthread_mutex_lock(&philo->data_p->died_mutex);
 	while (!philo->data_p->is_dead)
 	{
@@ -97,9 +90,7 @@ void	*routine(void *argument)
 		sleping(philo);
 		thinking(philo);
 		if (philo->data_p->num_philos % 2)
-		{
 			ft_usleep(calcule_time_impair(philo));
-		}
 		pthread_mutex_lock(&philo->data_p->died_mutex);
 	}
 	pthread_mutex_unlock(&philo->data_p->died_mutex);

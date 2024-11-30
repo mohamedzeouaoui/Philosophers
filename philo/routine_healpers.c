@@ -17,11 +17,24 @@ void	eating_1philo(t_philo *philo)
 	if (philo->data_p->num_philos == 1)
 	{
 		pthread_mutex_lock(philo->right_fork);
-		ft_lock_print("take a right fork", philo);
+		ft_lock_print("has taken a fork", philo);
 		ft_usleep(philo->data_p->time_to_die);
 		pthread_mutex_unlock(philo->right_fork);
 	}
 	return ;
+}
+
+int	is_deid_2_line(t_data *data, int i)
+{
+	pthread_mutex_lock(&data->check_death);
+	ft_print_deid(data, i);
+	pthread_mutex_lock(&data->died_mutex);
+	data->is_dead = true;
+	pthread_mutex_unlock(&data->died_mutex);
+	data->is_errore = true;
+	pthread_mutex_unlock(&data->check_death);
+	pthread_mutex_unlock(&data->philo[i].cheack_deid);
+	return (-1);
 }
 
 int	func_25_check_deid(t_data *data, int *i, int *ll)
@@ -29,17 +42,7 @@ int	func_25_check_deid(t_data *data, int *i, int *ll)
 	pthread_mutex_lock(&data->philo[*i].cheack_deid);
 	if (current_time() - data->philo[*i].last_meal_time > data->time_to_die)
 	{
-		pthread_mutex_lock(&data->check_death);
-		ft_print_deid(data, *i);
-		pthread_mutex_lock(&data->died_mutex);
-
-		data->is_dead = true;
-		pthread_mutex_unlock(&data->died_mutex);
-
-		data->is_errore = true;
-		pthread_mutex_unlock(&data->check_death);
-		pthread_mutex_unlock(&data->philo[*i].cheack_deid);
-		return (-1);
+		return (is_deid_2_line(data, *i));
 	}
 	pthread_mutex_unlock(&data->philo[*i].cheack_deid);
 	pthread_mutex_lock(&data->philo[*i].cheack_num_eat_mutex);
@@ -56,8 +59,6 @@ int	func_25_check_deid(t_data *data, int *i, int *ll)
 		data->is_dead = true;
 		pthread_mutex_unlock(&data->died_mutex);
 		return (-1);
-		
-
 	}
 	pthread_mutex_unlock(&data->check_death);
 	pthread_mutex_unlock(&data->philo[*i].cheack_num_eat_mutex);
@@ -83,13 +84,6 @@ void	*cheack_philo_died(void *ptr)
 		}
 	}
 	return (NULL);
-}
-
-void	update_last_meal_time(t_philo *philosopher)
-{
-	pthread_mutex_lock(&philosopher->cheack_deid);
-	philosopher->last_meal_time = current_time();
-	pthread_mutex_unlock(&philosopher->cheack_deid);
 }
 
 long	time_to_print(t_philo *philo)
